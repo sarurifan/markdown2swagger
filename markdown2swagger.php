@@ -20,7 +20,7 @@ include_once "base.php";
 class Markdown2Swagger extends Base
 {
     private static $_config = [
-        'MD_SOURCE' => 'api2.md',
+        'MD_SOURCE' => 'api.md',
         'SWAGGER_NAME'=>'2.0',
         'HOST' => '192.168.0.168',
         'PORT'=> '8039',
@@ -170,7 +170,7 @@ class Markdown2Swagger extends Base
             $arr['parameters']=$this->buildParam($value['api_param']);
             $arr['responses']=$this->buildRequest($value['api_request']);
             $arr['security']=$this->buildSecurity();
-
+            $value['type']=strtolower($value['type']);
             $this->resultJson['paths'][$value['url']][$value['type']]=$arr;
             //var_dump($arr);
         }
