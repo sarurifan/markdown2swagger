@@ -82,7 +82,7 @@ signature: 26244d481ea9fd2ad41a2f7f010e79441a4d697f
 ```
 ---
 
-#### 小程序授权 |API| ==/Oauth/wx_login==
+#### 小程序授权 |API|/Oauth/wx_login
 
 ###### 传递参数
 参数名称|参数说明

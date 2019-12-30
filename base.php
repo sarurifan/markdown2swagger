@@ -122,17 +122,6 @@ class Base
     }
 
 
-    //数据
-    public function setOrm()
-    {
-        $mysql_conn = mysqli_connect(self::$_config['DB_HOST'], self::$_config['DB_USER'], self::$_config['DB_PWD']) or die("DataBase Connect false.");
-        mysqli_select_db($mysql_conn, self::$_config['DB_NAME']);
-        $result = $mysql_conn->query('show tables');
-        $mysql_conn->query('SET NAME UTF8');
-        $this->orm= $result;
-        $this->conn=$mysql_conn;
-    }
-
 
 
     //获取具体接口名字和介绍
@@ -145,9 +134,11 @@ class Base
        return $arr2;
     }
 
-    //获取具体接口名字和介绍 返回数组 各种情况都出来了 .md写的好随意
+    //获取具体接口名字和介绍 返回数组 各种情况都出来了 .md写的好随意 
+    //正则不熟 那就来个数组地狱吧
     public function getApiTitle($string)
     {
+        //$string=str_replace("=","",$string);
         $arr  = explode("######", $string);
         $arr2 = explode("|", $arr[0]);
         $arr3['name']= trim(str_replace("####","",$arr2[0]));
@@ -176,7 +167,7 @@ class Base
         $arr3['api_param']=$this->getApiParam($string);
         $arr3['api_request']=$this->getApiRequest($string);
         $arr3['api_request_field_info']=$this->getApiRequestFieldInfo($string);
-        unset($arr,$arr2,$arr4);
+        unset($arr,$arr2,$arr4,$arr5,$arr6,$arr7,$arr8,$arr9);
         return $arr3;
     }
 
@@ -239,6 +230,8 @@ class Base
         if($string){
             $arr=explode('```',$string);
             if($arr[1]){
+                //$arr[1]=str_replace(" ","",$arr[1]);
+                //$arr[1]=str_replace("/r/n","",$arr[1]);
                 return trim($arr[1]);
             }
         }
@@ -265,84 +258,13 @@ class Base
 
         }
 
-        var_dump($this->result);
-        //$this->setOrm();
-        //$this->readTabName();
-        //$this->readTabSchema();
-        //$this->readTabField();
-        //$this->closeConn();
-
-        //return $this->tables;
-    }
-
-    //读取表头
-    public function readTabName()
-    {
-        while ($row = mysqli_fetch_array($this->orm)) {
-            $this->tables[]['TABLE_NAME'] = $row[0];
-        }
+        //var_dump($this->result);
+        
+        return $this->result;
     }
 
    
-    //读取注释
-    public function readTabSchema()
-    {
-        // 循环取得所有表的备注及表中列消息
-        foreach ($this->tables as $k => $v) {
-            $sql = 'SELECT * FROM ';
-            $sql .= 'INFORMATION_SCHEMA.TABLES ';
-            $sql .= 'WHERE ';
-            $sql .= "table_name = '{$v['TABLE_NAME']}' AND table_schema = '".self::$_config['DB_NAME']."'";
-            $table_result = $this->conn->query($sql);
-            while ($t = mysqli_fetch_array($table_result)) {
-                $this->tables[$k]['TABLE_COMMENT'] = $t['TABLE_COMMENT'];
-            }
-        }
-    }
-          
-
-    //读取字段
-    public function readTabField()
-    {
-
-        // 循环取得所有表的的字段
-        foreach ($this->tables as $k => $v) {
-            $sql = 'SELECT * FROM ';
-            $sql .= 'INFORMATION_SCHEMA.COLUMNS ';
-            $sql .= 'WHERE ';
-            $sql .= "table_name = '{$v['TABLE_NAME']}' AND table_schema = '".self::$_config['DB_NAME']."'";
-     
-            $fields = array();
-            $field_result = $this->conn->query($sql);
-            while ($t = mysqli_fetch_array($field_result)) {
-                $fields[] = $t;
-            }
-
-            $this->tables[$k]['COLUMN'] = $fields;
-        }
-    }
-
-    //关闭数据库
-    public function closeConn()
-    {
-        mysqli_close($this->conn);
-    }
-
-    //读取索引
-    public static function readMysqlIndex()
-    {
-    }
-
-    //构建索引数组
-    public static function setIndexArr()
-    {
-    }
-
-    //根据索引数组生成文件
-    public static function makeIndexFile()
-    {
-    }
 }
 
-$md= new Base();
-$md->run();
+//$md= new Base();
+//$md->run();
