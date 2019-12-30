@@ -8,3 +8,10 @@
 > - 先搭个基础架子
 > - 目前基础效果实现了 字段方面还需要细化
 
+# 还未实现的功能
+> - Parameter Type 指定  目前原md没有这方面的数据
+> - Data Type 指定   目前原md没有这方面的数据
+> - require 指定   目前原md没有这方面的数据
+> - Example Value 实现  目前原md没有这方面的数据
+> - 返回的参数说明 还未 附加到 description 上
+[
