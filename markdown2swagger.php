@@ -22,8 +22,8 @@ class Markdown2Swagger extends Base
     private static $_config = [
         'MD_SOURCE' => 'api.md',
         'SWAGGER_NAME'=>'2.0',
-        'HOST' => '192.168.0.168',
-        'PORT'=> '8039',
+        'HOST' => '192.168.1.5',
+        'PORT'=> '8017',
         'TERMS_Of_SERVICE'=>'192.168.0.168',
         'DESCRIPTION' => '实在不习惯swagger编辑器 还是拥抱markdown 简洁方便的编辑吧',
         'VERSION' => '1.0',
@@ -158,7 +158,7 @@ class Markdown2Swagger extends Base
 
             $arr['tags']=[ $arr2['path']];
             $arr['summary']=$value['name'];
-            $arr['description']=$value['api_request_field_info'];
+            $arr['description']=$value['api_request'].$value['api_request_field_info'];
             $arr['operationId']=$value['api_key'];
             // $arr['consumes'] = [
             //     //"multipart/form-data"

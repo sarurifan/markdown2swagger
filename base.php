@@ -219,9 +219,19 @@ class Base
                     $arr6[$arr5[0]]=trim($arr5[1]);
                 }
             }
+
+            //新增的 让返回的是字符串 而不是数组了
+            $str='';
+            $str.='返回参数 | 返回参数说明<br>';
+            foreach ($arr6 as $k => $val) {
+                # code...
+                $str.='<em>'.$k.'</em> | '.$val.'<br>';
+            }
+
+                return $str;
             //var_dump($arr6);
-            return $arr6;
-            exit($string);   
+           // return $arr6;
+            //exit($string);   
         }
     }
 
