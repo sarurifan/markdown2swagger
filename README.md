@@ -14,4 +14,5 @@
 > - require 指定   目前原md没有这方面的数据
 > - Example Value 实现  目前原md没有这方面的数据
 > - 返回的参数说明 还未 附加到 description 上
-[
+> - response 无效 实际有输出的还没输出 
+> - 安全认证 参数还没设定好  目前原md没有这方面的数据
