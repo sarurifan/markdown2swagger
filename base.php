@@ -166,6 +166,7 @@ class Base
 
         $arr3['api_param']=$this->getApiParam($string);
         $arr3['api_request']=$this->getApiRequest($string);
+        $arr3['api_example']=$this->getApiExample($string);
         $arr3['api_request_field_info']=$this->getApiRequestFieldInfo($string);
         unset($arr,$arr2,$arr4,$arr5,$arr6,$arr7,$arr8,$arr9);
         return $arr3;
@@ -175,7 +176,7 @@ class Base
     public function getApiParam($string){
         $substr='###### 传递参数';
         $nums=substr_count($string,$substr);
-            if ($nums<1){ return true; exit($nums.'###### 传递参数'.$string); }
+            if ($nums<1){ return false; exit($nums.'###### 传递参数'.$string); }
             if ($nums>0){
                 $arr=explode($substr,$string);
                 $arr2=explode('======',$arr[1]);
@@ -202,9 +203,11 @@ class Base
 
     //获取返回参数
     public function getApiRequest($string){
+        //exit($string);
+        //exit("获取request");
         $substr='###### 返回参数';
         $nums=substr_count($string,$substr);
-        if ($nums<1){ return true;  exit($nums.'###### 传递参数'.$string); }
+        if ($nums<1){ return false;  exit($nums.'###### 传递参数'.$string); }
 
         if ($nums>0){
             $arr=explode($substr,$string);
@@ -219,6 +222,7 @@ class Base
                     $arr6[$arr5[0]]=trim($arr5[1]);
                 }
             }
+            return $arr6;
 
             //新增的 让返回的是字符串 而不是数组了
             $str='';
@@ -228,12 +232,47 @@ class Base
                 $str.='<em>'.$k.'</em> | '.$val.'<br>';
             }
 
-                return $str;
+            
+
             //var_dump($arr6);
-           // return $arr6;
-            //exit($string);   
+            //exit("测试");
+                return $str;
+            
+          
+            exit($string);   
         }
+        
     }
+
+    //获取示例参数
+    public function getApiExample($string){
+        
+        $arr=explode("示例说明",$string);
+        if($arr[1]){
+            $arr2=explode("=====",$arr[1]);
+            $arr3=explode("```",$arr2[1]);
+            $arr4=explode("\r\n",$arr3[0]);
+            foreach ($arr4 as $key => $value) {
+                //var_dump($value);
+               // echo '--->'.$key.'<br>';
+                if($value && $value !="="){
+                    $arr10=explode("|",$value);
+                    $arr5[$arr10[0]]=$arr10[1];
+                }
+                
+            }
+        }
+        $arr6=explode("|",$arr2[0]);
+        $keyName=trim($arr6[0]);
+
+        $arr7[$keyName]=$arr5;
+        //var_dump($arr2);
+        return $arr7;
+        var_dump($arr7);
+        exit("测试示例".$keyName);
+        exit($string);
+    }
+    
 
     //获取返回参数字段说明
     public function getApiRequestFieldInfo($string){

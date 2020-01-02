@@ -175,7 +175,7 @@ class Markdown2Swagger extends Base
                 "application/xml"
               ];
             $arr['parameters']=$this->buildParam($value['api_param']);
-            $arr['responses']=$this->buildRequest($value['api_request']);
+            $arr['responses']=$this->buildRequest($value);
             $arr['security']=$this->buildSecurity();
             $value['type']=strtolower($value['type']);
             $this->resultJson['paths'][$value['url']][$value['type']]=$arr;
@@ -216,7 +216,10 @@ class Markdown2Swagger extends Base
     //构造输出
     public function buildRequest($arr)
     {
-       $responses=[
+       
+        //var_dump($arr);
+       // exit("构造输出");
+        $responses=[
       
             "200" => [
               "description" => "successful operation",
@@ -224,7 +227,9 @@ class Markdown2Swagger extends Base
                 "type" => "array",
                 "items" => [
                   "$ref" => "#/definitions/Pet"
-                ]
+                ],
+                "example"=>$this->buildExample($arr),
+
               ]
             ],
             "400" => [
@@ -234,6 +239,34 @@ class Markdown2Swagger extends Base
             ];
        
         return $responses;
+    }
+
+    //构造Example 目前用
+    public function buildExample($arr)
+    {
+        //exit($arr);
+       $arr2=[ "status" => "状态码",
+        "msg" => "服务端返回消息",
+        "data" => [
+            "id"=>"名片id",
+            "uid"=>"用户id",
+        ]
+        ];
+        //var_dump($arr['api_request']);
+        //var_dump($arr['api_example']);
+        //exit("测试");
+        if($arr['api_request']!=false){
+            foreach ($arr['api_request'] as $key => $value) {
+                if($value){
+                     if($arr['api_example'][$key]){
+                         $arr['api_request'][$key]=$arr['api_example'];
+                     }
+                }
+             }
+        }
+
+
+        return  $arr['api_request'];
     }
 
     //构造sec
@@ -270,8 +303,9 @@ class Markdown2Swagger extends Base
         file_put_contents('test.json', $json);
         //exit($json);
         //主流程
-        var_dump($json);
-        exit('测试1');
+        //var_dump($json);
+        //exit('测试1');
+        header('location: http://192.168.0.168:911/swagger/'); 
     }
       
 } 

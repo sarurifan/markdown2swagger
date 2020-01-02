@@ -4,10 +4,8 @@
 - 系统基于 ThinkSNS v4 开发
 - 正常 T4API接入地址  api.php
 - API默认需要用户登录后，传输正确的 oauth_token和  oauth_token_secret才能正常访问，
-- 但是，api也有不用登陆的 api，这种 api我们称之为白名单  api，添加白名单 api在
-/config/api.inc.php中配置
-- 以下 API地址格式是/mod/act的形式书写，例如  api.php?mod=Oauth&act=authorize将以
-/Oauth/authorize的形式描述。
+- 但是，api也有不用登陆的 api，这种 api我们称之为白名单  api，添加白名单 api在 /config/api.inc.php 中配置
+- 以下 API地址格式是/mod/act的形式书写，例如  api.php?mod=Oauth&act=authorize将以 /Oauth/authorize 的形式描述。
 - API按照按照功能文件排列书写，不分先后，可能有些功能会被岔开！
 - API参数传递，支持 get和  post混合传输，但是，mod和  act必须  get方式，其他参数建议 post方式传输
 - 随着功能开发 文档会逐步更新 版本迭代
@@ -23,14 +21,14 @@
 - 任务类接口 /Task/
 - 礼物商城类接口 |/Gift/
 - 找人类接口 /FindPeople/
-- 微博类接口 /Weibo/
+- 供需广场微博类接口 /Weibo/
 - 标签类接口 /Tag/
 - 举报类接口 /Denounce/
 - 积分充值类接口 /Credit/
 - 签到类接口 /Checkin/
 - 频道相关类接口 /Channel/
 - 全局系列接口  /Public/ ==新增==  白名单
-- 名片库系列接口  /Namecard/ ==新增==  
+- 文旅资源库:名片库系列接口  /Namecard/ ==新增==  
 ## 注意提示
 
 > 接口 模型为大写首字母 大小写不符会不认 示例 :Outh
@@ -81,6 +79,66 @@ signature: 26244d481ea9fd2ad41a2f7f010e79441a4d697f
 # 请求都附带这两个 可以为get 也可以post
 # 地址 http://192.168.0.168:8015/
 ```
+
+---
+
+#### 测试EXPLALE |API|/Oauth/test
+
+###### 传递参数
+参数名称|参数说明
+---|---
+wxapp_id|小程序id
+code|获取openid等用
+user_info|核对信息用
+encrypted_data|加密数据核对用
+iv|计算偏移
+password|用户密码
+signature|签名
+
+
+###### 返回参数：
+参数名称|参数说明
+---|---
+status|状态码 一般都是 0失败 1成功
+msg|提示信息
+data|返回的具体数据
+
+
+###### 示例说明
+data|示例参数
+---|---
+id| 名片,
+uid| 用户uid,
+namecard_group_id| 备用,
+namecard_category_id| 备用,
+company| 公司名称 |,
+realname| 名字,
+idcard| |认证号码 身份证之类,
+phone| 电话,
+info|认证信息|,
+verified| 是否认证 备用,
+attach_id|认证资料 id,
+attach | 认证资料图片
+reason| 备用 无视,
+is_allow_public| 是否允许公开名片 0 不公开 1 部分公开 2  公开,
+is_allow_clone| 是否允许别人克隆你的名片, 0不允许,1允许
+is_allow_feed| 是否允许别人分享你的名片, 0不允许 1 允许
+addr|地址,
+addr_detail| 地址详细 比如101房间,
+industry|行业,
+hit| 点击数,
+college| 收藏数 备用字段,
+is_audit| 是否通过审核,
+is_active| 是否激活状态1,
+is_del| 是否禁用状态,
+job|职位,
+ctime|创建时间,
+search_key| 索引key 方便搜索用 把汉字变成拼音形式保存了
+
+```
+备注数据
+```
+
 ---
 
 #### 小程序授权 |API|/Oauth/wx_login
@@ -905,10 +963,148 @@ uname|用户名
 
 参数名称|参数说明
 ---|---
-status|状态码，0标识错误
-msg|消息
+is_admin|是否管理员 |0为不是
+uid| 用户id
+uname| 用户名
+remark| 备注
+sex| 性别
+intro| 个人简介
+location| 地址
+avatar| 头像
+experience| 经验
+charm| 
+weibo_count| 7
+follower_count| 0
+following_count| 3
+space_privacy| 个人中心隐私政策
+follow_status| 关注情况  following 我关注的   follower 关注我的
+follower| 关注粉丝列表
+is_in_blacklist|0,
+photo_count| 0,
+photo| 
+video_count| 0,
+video| 
+level_src|等级图片
+authenticate| 无
+certInfo| null,
+verified|  0 usergroup_id 0,verified| -1
+cover| false
+user_group| 用户组
+gift_count| false
+gift_list| null
+tags| 用户标签 
+account|
+account_type|
 
-==
+
+
+
+```
+
+{
+    "is_admin": "0",
+    "uid": 2,
+    "uname": "saruri",
+    "remark": "",
+    "sex": "女",
+    "intro": "个人简介",
+    "location": "北京 北京市 东城区",
+    "avatar": "http://192.168.0.168:8015/data/upload/avatar/c8/1e/72/original.jpg?v1576121947",
+    "experience": "57",
+    "charm": "",
+    "weibo_count": "7",
+    "follower_count": "0",
+    "following_count": "3",
+    "space_privacy": 0,
+    "follower": [],
+    "following": [
+        {
+            "uid": 32,
+            "uname": "推荐用户2",
+            "remark": "",
+            "avatar": "http://192.168.0.168:8015/resources/theme/stv1/_static/image/noavatar/big.jpg",
+            "user_group": [],
+            "space_privacy": 0
+        },
+        {
+            "uid": 1,
+            "uname": "管理员",
+            "remark": "",
+            "avatar": "http://192.168.0.168:8015/resources/theme/stv1/_static/image/noavatar/big.jpg",
+            "user_group": [
+                "http://192.168.0.168:8015/resources/theme/stv1/_static/image/usergroup/v_05.png"
+            ],
+            "space_privacy": 0
+        },
+        {
+            "uid": 28,
+            "uname": "saruri",
+            "remark": "",
+            "avatar": "http://192.168.0.168:8015/resources/theme/stv1/_static/image/noavatar/big.jpg",
+            "user_group": [],
+            "space_privacy": 0
+        }
+    ],
+    "follow_status": {
+        "following": 0,
+        "follower": 0
+    },
+    "is_in_blacklist": "0",
+    "photo_count": 0,
+    "photo": [],
+    "video_count": 0,
+    "video": [],
+    "level_src": "http://192.168.0.168:8015/data/upload/2015/0715/18/55a6381e4a2e7.png",
+    "authenticate": "无",
+    "certInfo": null,
+    "verified": {
+        "id": 0,
+        "usergroup_id": 0,
+        "verified": -1
+    },
+    "cover": false,
+    "user_group": [],
+    "gift_count": false,
+    "gift_list": null,
+    "user_credit": {
+        "credit": {
+            "experience": {
+                "value": 57,
+                "alias": "经验"
+            },
+            "score": {
+                "value": 263,
+                "alias": "积分"
+            }
+        },
+        "creditType": {
+            "experience": "经验",
+            "score": "积分"
+        },
+        "level": {
+            "level": 2,
+            "name": "LV2",
+            "image": "73",
+            "start": "11",
+            "end": "100",
+            "level_type": "experience",
+            "nextNeed": 43,
+            "nextName": "LV3",
+            "src": "http://192.168.0.168:8015/data/upload/2015/0715/18/55a6381e4a2e7.png"
+        }
+    },
+    "tags": {
+        "1": "测试标签",
+        "2": "php",
+        "3": "开发人员",
+        "4": "乒乓球",
+        "5": "漫画"
+    },
+    "account": "",
+    "account_type": 0
+}
+
+```
 
 ---
 #### 获取用户勋章|API|/User/get_user_medal
@@ -1782,14 +1978,23 @@ nowPage|当前页码
 data|推荐的用户数据
 
 
-###### 推荐用户数据
-参数名称|参数说明
+
+###### 示例说明
+data|示例参数
 ---|---
 uid|用户  id
 username|用户名
+distance|距离，单位  m
 avatar|用户头像
-followStatus|关注状态
+followStatus|关注状态 following 我在关注的人数量 follower 关注我的人数
 intro|用户简介
+space_privacy| 个人空间隐私设定
+ctim | 注册时间 新增
+digg|赞我的消息数量
+hit|浏览我主页的人的数量
+comment| 评论数量
+coll|收藏数量
+
 
 ---
 #### 获取人气用户|API|/FindPeople/getUserByHot
@@ -1808,14 +2013,21 @@ nowPage|当前页码
 data|人气用户数据
 
 
-###### 推荐用户数据
-参数名称|参数说明
+
+###### 示例说明
+data|示例参数
 ---|---
 uid|用户  id
 username|用户名
+distance|距离，单位  m
 avatar|用户头像
-followStatus|关注状态
+followStatus|关注状态 following 我在关注的人数量 follower 关注我的人数
 intro|用户简介
+space_privacy| 个人空间隐私设定
+ctim | 注册时间 新增
+digg|赞我的消息数量
+hit|浏览我主页的人的数量
+comment| 评论数量
 
 ---
 
@@ -1836,15 +2048,22 @@ nowPage|当前页码
 data|附近的人用户数据
 
 
-###### 附近的人数据
-参数名称|参数说明
+
+###### 示例说明
+data|示例参数
 ---|---
 uid|用户  id
 username|用户名
 distance|距离，单位  m
 avatar|用户头像
-followStatus|关注状态
+followStatus|关注状态 following 我在关注的人数量 follower 关注我的人数
 intro|用户简介
+space_privacy| 个人空间隐私设定
+ctim | 注册时间 新增
+digg|赞我的消息数量
+hit|浏览我主页的人的数量
+comment| 评论数量
+
 
 ---
 
@@ -1865,15 +2084,20 @@ nowPage|当前页码
 data|最新注册的人用户数据
 
 
-###### 最新注册的人数据
-参数名称|参数说明
+###### 示例说明
+data|示例参数
 ---|---
 uid|用户  id
 username|用户名
 distance|距离，单位  m
 avatar|用户头像
-followStatus|关注状态
+followStatus|关注状态 following 我在关注的人数量 follower 关注我的人数
 intro|用户简介
+space_privacy| 个人空间隐私设定
+ctim | 注册时间 新增
+digg|赞我的消息数量
+hit|浏览我主页的人的数量
+comment| 评论数量
 
 
 ---
@@ -3630,34 +3854,313 @@ msg|消息
 ---
 
 
-#### 个人名片列表 |POST| /Namecard/getNamecardList
+#### 个人名片列表1 |POST| /Namecard/getNamecardList
 
 
 ###### 传递参数
 参数名称|参数值P说明
 ---|---
-demo|示例
+max_id|上一次返回的最后一个名片ID
+count|名片个数
+
 
 ###### 返回参数
 参数名称|参数值说明
 ---|---
-status|0：失败，1：成功
-msg|消息
+id| 名片,
+uid| 用户uid,
+namecard_group_id| 备用,
+namecard_category_id| 备用,
+company| 公司名称 |,
+realname| 名字,
+idcard| |认证号码 身份证之类,
+phone| 电话,
+info|认证信息|,
+verified| 是否认证 备用,
+attach_id|认证资料 id,
+attach | 认证资料图片
+reason| 备用 无视,
+is_allow_public| 是否允许公开名片 0 不公开 1 部分公开 2  公开,
+is_allow_clone| 是否允许别人克隆你的名片, 0不允许,1允许
+is_allow_feed| 是否允许别人分享你的名片, 0不允许 1 允许
+addr|地址,
+addr_detail| 地址详细 比如101房间,
+industry|行业,
+hit| 点击数,
+college| 收藏数 备用字段,
+is_audit| 是否通过审核,
+is_active| 是否激活状态1,
+is_del| 是否禁用状态,
+job|职位,
+ctime|创建时间,
+search_key| 索引key 方便搜索用 把汉字变成拼音形式保存了
+
 
 ---
-#### 个人名片详情 |POST| /Namecard/getNamecardDetail
+
+#### 最新名片列表 |POST| /Namecard/getNamecardListByNew
+
+###### 传递参数
+参数名称|参数值说明
+---|---
+max_id|上一次返回的最后一个名片ID
+count|名片个数
+
+###### 返回参数
+参数名称|参数值说明
+---|---
+status|状态码0：失败，1：成功
+msg|消息
+data | 名片的具体数据
+
+
+###### 示例说明
+data|示例参数
+---|---
+id| 名片,
+uid| 用户uid,
+namecard_group_id| 备用,
+namecard_category_id| 备用,
+company| 公司名称 |,
+realname| 名字,
+idcard| |认证号码 身份证之类,
+phone| 电话,
+info|认证信息|,
+verified| 是否认证 备用,
+attach_id|认证资料 id,
+attach | 认证资料图片
+reason| 备用 无视,
+is_allow_public| 是否允许公开名片 0 不公开 1 部分公开 2  公开,
+is_allow_clone| 是否允许别人克隆你的名片, 0不允许,1允许
+is_allow_feed| 是否允许别人分享你的名片, 0不允许 1 允许
+addr|地址,
+addr_detail| 地址详细 比如101房间,
+industry|行业,
+hit| 点击数,
+college| 收藏数 备用字段,
+is_audit| 是否通过审核,
+is_active| 是否激活状态1,
+is_del| 是否禁用状态,
+job|职位,
+ctime|创建时间,
+search_key| 索引key 方便搜索用 把汉字变成拼音形式保存了
+
+
+---
+
+
+#### 热门名片列表 |POST| /Namecard/getNamecardListByHot
+
+
+###### 传递参数
+参数名称|参数值说明
+---|---
+max_id|上一次返回的最后一个名片ID
+count|名片个数
+
+###### 返回参数
+参数名称|参数值说明
+---|---
+status|状态码0：失败，1：成功
+msg|消息
+data | 名片的具体数据
+
+
+###### 示例说明
+data|示例参数
+---|---
+id| 名片,
+uid| 用户uid,
+namecard_group_id| 备用,
+namecard_category_id| 备用,
+company| 公司名称 |,
+realname| 名字,
+idcard| |认证号码 身份证之类,
+phone| 电话,
+info|认证信息|,
+verified| 是否认证 备用,
+attach_id|认证资料 id,
+attach | 认证资料图片
+reason| 备用 无视,
+is_allow_public| 是否允许公开名片 0 不公开 1 部分公开 2  公开,
+is_allow_clone| 是否允许别人克隆你的名片, 0不允许,1允许
+is_allow_feed| 是否允许别人分享你的名片, 0不允许 1 允许
+addr|地址,
+addr_detail| 地址详细 比如101房间,
+industry|行业,
+hit| 点击数,
+college| 收藏数 备用字段,
+is_audit| 是否通过审核,
+is_active| 是否激活状态1,
+is_del| 是否禁用状态,
+job|职位,
+ctime|创建时间,
+search_key| 索引key 方便搜索用 把汉字变成拼音形式保存了
+
+---
+
+#### 附近名片列表 |POST| /Namecard/getNamecardListByAround
+
+
+###### 传递参数
+参数名称|参数值说明
+---|---
+max_id|上一次返回的最后一个名片ID
+count|名片个数
+longitude|经度
+latitude|纬度
+
+###### 返回参数
+参数名称|参数值说明
+---|---
+status|状态码0：失败，1：成功
+msg|消息
+data | 名片的具体数据
+
+
+###### 示例说明
+data|示例参数
+---|---
+id| 名片,
+uid| 用户uid,
+namecard_group_id| 备用,
+namecard_category_id| 备用,
+company| 公司名称 |,
+realname| 名字,
+idcard| |认证号码 身份证之类,
+phone| 电话,
+info|认证信息|,
+verified| 是否认证 备用,
+attach_id|认证资料 id,
+attach | 认证资料图片
+reason| 备用 无视,
+is_allow_public| 是否允许公开名片 0 不公开 1 部分公开 2  公开,
+is_allow_clone| 是否允许别人克隆你的名片, 0不允许,1允许
+is_allow_feed| 是否允许别人分享你的名片, 0不允许 1 允许
+addr|地址,
+addr_detail| 地址详细 比如101房间,
+industry|行业,
+hit| 点击数,
+college| 收藏数 备用字段,
+is_audit| 是否通过审核,
+is_active| 是否激活状态1,
+is_del| 是否禁用状态,
+job|职位,
+ctime|创建时间,
+search_key| 索引key 方便搜索用 把汉字变成拼音形式保存了
+
+
+---
+
+
+#### 推荐名片列表 |POST| /Namecard/getNamecardListByRecommend
+
+###### 传递参数
+参数名称|参数值说明
+---|---
+max_id|上一次返回的最后一个名片ID
+count|名片个数
+
+###### 返回参数
+参数名称|参数值说明
+---|---
+status|状态码0：失败，1：成功
+msg|消息
+data | 名片的具体数据
+
+
+###### 示例说明
+data|示例参数
+---|---
+id| 名片,
+uid| 用户uid,
+namecard_group_id| 备用,
+namecard_category_id| 备用,
+company| 公司名称 |,
+realname| 名字,
+idcard| |认证号码 身份证之类,
+phone| 电话,
+info|认证信息|,
+verified| 是否认证 备用,
+attach_id|认证资料 id,
+attach | 认证资料图片
+reason| 备用 无视,
+is_allow_public| 是否允许公开名片 0 不公开 1 部分公开 2  公开,
+is_allow_clone| 是否允许别人克隆你的名片, 0不允许,1允许
+is_allow_feed| 是否允许别人分享你的名片, 0不允许 1 允许
+addr|地址,
+addr_detail| 地址详细 比如101房间,
+industry|行业,
+hit| 点击数,
+college| 收藏数 备用字段,
+is_audit| 是否通过审核,
+is_active| 是否激活状态1,
+is_del| 是否禁用状态,
+job|职位,
+ctime|创建时间,
+search_key| 索引key 方便搜索用 把汉字变成拼音形式保存了
+
+
+
+
+---
+
+
+
+
+
+
+
+
+#### 名片详情 |POST| /Namecard/getNamecardDetail
 
 
 ###### 传递参数
 参数名称|参数值P说明
 ---|---
-demo|示例
+id|名片id
 
 ###### 返回参数
 参数名称|参数值说明
 ---|---
-status|0：失败，1：成功
+status|状态码0：失败，1：成功
 msg|消息
+data | 名片的具体数据
+
+###### 示例说明
+data|示例参数
+---|---
+id| 名片,
+uid| 用户uid,
+namecard_group_id| 备用,
+namecard_category_id| 备用,
+company| 公司名称 |,
+realname| 名字,
+idcard| |认证号码 身份证之类,
+phone| 电话,
+info|认证信息|,
+verified| 是否认证 备用,
+attach_id|认证资料 id,
+attach | 认证资料图片
+reason| 备用 无视,
+is_allow_public| 是否允许公开名片 0 不公开 1 部分公开 2  公开,
+is_allow_clone| 是否允许别人克隆你的名片, 0不允许,1允许
+is_allow_feed| 是否允许别人分享你的名片, 0不允许 1 允许
+addr|地址,
+addr_detail| 地址详细 比如101房间,
+industry|行业,
+hit| 点击数,
+college| 收藏数 备用字段,
+is_audit| 是否通过审核,
+is_active| 是否激活状态1,
+is_del| 是否禁用状态,
+job|职位,
+ctime|创建时间,
+search_key| 索引key 方便搜索用 把汉字变成拼音形式保存了
+
+```
+请求一次这个接口 则 点击hit数+1
+```
 
 ---
 #### 名片搜索 |POST| /Namecard/searchNamecard
@@ -3679,9 +4182,23 @@ msg|消息
 #### 保存名片  |POST| /Namecard/saveNamecard
 
 ###### 传递参数
-参数名称|参数值P说明
+参数名称|参数值说明
 ---|---
-demo|示例
+uid	|要添加名片的用户id
+realname|名片上显示的名字
+company|公司名称
+industry|行业	
+job	|职位
+phone|手机
+idcard|证件号码
+info|认证信息
+attach_id|认证头像，存储用户上传的ID 通过上传图片接口获取
+addr|地址	例如 北京海淀区肖家河
+addr_detail	|地址详细 比如几楼几号	
+is_allow_public	|是否公开 0不公开 1公开
+is_allow_clone	|是否允许他人克隆您的名片 0不允许 1允许
+is_allow_feed|	是否允许他人分享您的名片 0不允许 1允许
+
 
 ###### 返回参数
 参数名称|参数值说明
@@ -3689,6 +4206,30 @@ demo|示例
 status|0：失败，1：成功
 msg|消息
 
+```
+<br>
+uid   是加token  还是加uid 再讨论
+<br>
+演示数据<br>
+{
+	"uid": 2,
+	"realname": "名片上显示的名字",
+	"company": "公司名称",
+	"industry": "行业",
+	"job": "职位",
+	"phone": "手",
+	"idcard": "证件号码",
+	"info": "认证信息",
+	"attach_id": "认证头像， 存储用户上传的ID 通过上传图片接口获取 ",
+	"addr": " 北京海淀区肖家河",
+	"addr_detail": "地址详细 比如几楼几号",
+	"is_allow_public": "是否公开 0不公开 1公开",
+	"is_allow_clone": "是否允许他人克隆您的名片 0不允许 1允许",
+	"is_allow_feed": "允许他人分享您的名片 0不允许 1允许"
+}
+
+
+```
 
 ---
 
@@ -3698,7 +4239,40 @@ msg|消息
 ###### 传递参数
 参数名称|参数值P说明
 ---|---
-demo|示例
+id|传输的名片id
+uid	|要删除名片的用户id
+###### 返回参数
+参数名称|参数值说明
+---|---
+status|0：失败，1：成功
+msg|消息
+
+```
+没有名片就需要传递uid 待讨论
+```
+---
+
+#### 编辑名片 |POST| /Namecard/editNamecard
+
+
+###### 传递参数
+参数名称|参数值P说明
+---|---
+id|名片id
+uid	|要编辑名片的用户id
+realname|名片上显示的名字
+company|公司名称
+industry|行业	
+job	|职位
+phone|手机
+idcard|证件号码
+info|认证信息
+attach_id|认证头像，存储用户上传的ID 通过上传图片接口获取
+addr|地址	例如 北京海淀区肖家河
+addr_detail	|地址详细 比如几楼几号	
+is_allow_public	|是否公开 0不公开 1公开
+is_allow_clone	|是否允许他人克隆您的名片 0不允许 1允许
+is_allow_feed|	是否允许他人分享您的名片 0不允许 1允许
 
 ###### 返回参数
 参数名称|参数值说明
@@ -3706,10 +4280,32 @@ demo|示例
 status|0：失败，1：成功
 msg|消息
 
+```
+<br>
+演示数据<br>
+{
+	"id":22,
+	"uid": 2,
+	"realname": "编辑名片",
+	"company": "编辑公司名称",
+	"industry": "编辑行业",
+	"job": "编辑职位",
+	"phone": "编辑手",
+	"idcard": "编辑证件号码",
+	"info": "编辑认证信息",
+	"attach_id": "编辑认证头像， 存储用户上传的ID 通过上传图片接口获取 ",
+	"addr": " 编辑北京海淀区肖家河",
+	"addr_detail": "编辑地址详细 比如几楼几号",
+	"is_allow_public": "编辑是否公开 0不公开 1公开",
+	"is_allow_clone": "编辑是否允许他人克隆您的名片 0不允许 1允许",
+	"is_allow_feed": "编辑允许他人分享您的名片 0不允许 1允许"
+}
+```
+
+
 ---
 
-#### 编辑名片 |POST| /Namecard/editNamecard
-
+#### 获取用户信息 |POST| /User/getUserInfo
 
 ###### 传递参数
 参数名称|参数值P说明
@@ -3722,3 +4318,46 @@ demo|示例
 status|0：失败，1：成功
 msg|消息
 
+
+---
+
+#### 我看过的名片 |POST| /Namecard/getSeenNamecard
+
+
+###### 返回参数
+参数名称|参数值说明
+---|---
+status|状态码0：失败，1：成功
+msg|消息
+data | 名片的具体数据
+
+###### 示例说明
+data|示例参数
+---|---
+id| 名片,
+uid| 用户uid,
+namecard_group_id| 备用,
+namecard_category_id| 备用,
+company| 公司名称 |,
+realname| 名字,
+idcard| |认证号码 身份证之类,
+phone| 电话,
+info|认证信息|,
+verified| 是否认证 备用,
+attach_id|认证资料 id,
+attach | 认证资料图片
+reason| 备用 无视,
+is_allow_public| 是否允许公开名片 0 不公开 1 部分公开 2  公开,
+is_allow_clone| 是否允许别人克隆你的名片, 0不允许,1允许
+is_allow_feed| 是否允许别人分享你的名片, 0不允许 1 允许
+addr|地址,
+addr_detail| 地址详细 比如101房间,
+industry|行业,
+hit| 点击数,
+college| 收藏数 备用字段,
+is_audit| 是否通过审核,
+is_active| 是否激活状态1,
+is_del| 是否禁用状态,
+job|职位,
+ctime|创建时间,
+search_key| 索引key 方便搜索用 把汉字变成拼音形式保存了
